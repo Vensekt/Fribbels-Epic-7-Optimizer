@@ -258,6 +258,11 @@ window.jQuery = $;
                 <input type="checkbox" id="inputKeepCurrentItems" class="optimizer-checkbox">
                 <label for="inputKeepCurrentItems" data-t>Keep current</label>
               </div>
+
+              <div title="Drops items whose substats don't align with the priority sliders. Slider = 4 marks a 'super' stat — items with a large amount of that stat bypass the prune.">
+                <input type="checkbox" id="prePrunerEnabled" class="optimizer-checkbox" checked>
+                <label for="prePrunerEnabled" data-t>Pre-prune items</label>
+              </div>
               <div class="horizontalSpace"></div>
               <div class="horizontalSpace"></div>
               <div class="horizontalSpace"></div>
@@ -438,7 +443,7 @@ window.jQuery = $;
               <div class="sliderRow">
                 <div class="sliderLabel" data-t>Atk</div>
                 <input class="sliderInput" id="atkSliderInput" type="number" value="0" readonly>
-                <div class="sliderContainer"><input class="slider" id="atkSlider" type="range" min="-1" max="3" value="0" step="1"></div>
+                <div class="sliderContainer"><input class="slider" id="atkSlider" type="range" min="-1" max="4" value="0" step="1"></div>
               </div>
 
               <div class="horizontalSpace" ></div>
@@ -446,7 +451,7 @@ window.jQuery = $;
               <div class="sliderRow">
                 <div class="sliderLabel" data-t>Def</div>
                 <input class="sliderInput" id="defSliderInput" type="number" value="0" readonly>
-                <div class="sliderContainer"><input class="slider" id="defSlider" type="range" min="-1" max="3" value="0" step="1"></div>
+                <div class="sliderContainer"><input class="slider" id="defSlider" type="range" min="-1" max="4" value="0" step="1"></div>
               </div>
 
               <div class="horizontalSpace" ></div>
@@ -454,7 +459,7 @@ window.jQuery = $;
               <div class="sliderRow">
                 <div class="sliderLabel" data-t>Hp</div>
                 <input class="sliderInput" id="hpSliderInput" type="number" value="0" readonly>
-                <div class="sliderContainer"><input class="slider" id="hpSlider" type="range" min="-1" max="3" value="0" step="1"></div>
+                <div class="sliderContainer"><input class="slider" id="hpSlider" type="range" min="-1" max="4" value="0" step="1"></div>
               </div>
 
               <div class="horizontalSpace" ></div>
@@ -462,7 +467,7 @@ window.jQuery = $;
               <div class="sliderRow">
                 <div class="sliderLabel" data-t>Spd</div>
                 <input class="sliderInput" id="spdSliderInput" type="number" value="0" readonly>
-                <div class="sliderContainer"><input class="slider" id="spdSlider" type="range" min="-1" max="3" value="0" step="1"></div>
+                <div class="sliderContainer"><input class="slider" id="spdSlider" type="range" min="-1" max="4" value="0" step="1"></div>
               </div>
 
               <div class="horizontalSpace" ></div>
@@ -470,7 +475,7 @@ window.jQuery = $;
               <div class="sliderRow">
                 <div class="sliderLabel" data-t>Cr</div>
                 <input class="sliderInput" id="crSliderInput" type="number" value="0" readonly>
-                <div class="sliderContainer"><input class="slider" id="crSlider" type="range" min="-1" max="3" value="0" step="1"></div>
+                <div class="sliderContainer"><input class="slider" id="crSlider" type="range" min="-1" max="4" value="0" step="1"></div>
               </div>
 
               <div class="horizontalSpace" ></div>
@@ -478,7 +483,7 @@ window.jQuery = $;
               <div class="sliderRow">
                 <div class="sliderLabel" data-t>Cd</div>
                 <input class="sliderInput" id="cdSliderInput" type="number" value="0" readonly>
-                <div class="sliderContainer"><input class="slider" id="cdSlider" type="range" min="-1" max="3" value="0" step="1"></div>
+                <div class="sliderContainer"><input class="slider" id="cdSlider" type="range" min="-1" max="4" value="0" step="1"></div>
               </div>
 
               <div class="horizontalSpace" ></div>
@@ -486,7 +491,7 @@ window.jQuery = $;
               <div class="sliderRow">
                 <div class="sliderLabel" data-t>Eff</div>
                 <input class="sliderInput" id="effSliderInput" type="number" value="0" readonly>
-                <div class="sliderContainer"><input class="slider" id="effSlider" type="range" min="-1" max="3" value="0" step="1"></div>
+                <div class="sliderContainer"><input class="slider" id="effSlider" type="range" min="-1" max="4" value="0" step="1"></div>
               </div>
 
               <div class="horizontalSpace" ></div>
@@ -495,7 +500,7 @@ window.jQuery = $;
               <div class="sliderRow">
                 <div class="sliderLabel" data-t>Res</div>
                 <input class="sliderInput" id="resSliderInput" type="number" value="0" readonly>
-                <div class="sliderContainer"><input class="slider" id="resSlider" type="range" min="-1" max="3" value="0" step="1"></div>
+                <div class="sliderContainer"><input class="slider" id="resSlider" type="range" min="-1" max="4" value="0" step="1"></div>
               </div>
 
               <div class="horizontalSpace" ></div>

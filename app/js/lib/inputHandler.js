@@ -62,6 +62,7 @@ global.Selectors = require('./selectors');
 global.Settings = require('./settings');
 global.ForceFilter = require('./forceFilter');
 global.PriorityFilter = require('./priorityFilter');
+global.PrePruner = require('./prePruner');
 global.ZarrocConverter = require('./zarrocConverter');
 const {ModuleRegistry, Grid} = require('@ag-grid-community/core');
 const {ClientSideRowModelModule} = require('@ag-grid-community/client-side-row-model');

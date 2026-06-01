@@ -449,6 +449,42 @@ module.exports = {
 
         items = ModificationFilter.apply(items, params.inputSubstatMods, hero, submit, index);
 
+        // Pre-pruner: absolute-criterion filter that runs BEFORE the rank-based
+        // PriorityFilter. Drops items that physically cannot help (linear-stat
+        // upper bound) or whose substats all sit on stats the user marked as
+        // irrelevant. Running before PF (rather than after) is what gives a
+        // real perm-space reduction: PF takes top-N% of the *pruned* pool,
+        // so the budget compounds. See app/js/lib/prePruner.js for the rules.
+        // Mode is controlled by the "Pre-pruner" checkbox in the optimizer
+        // sidebar (`#prePrunerEnabled`), with window.PRE_PRUNER_MODE as an
+        // override hook for debugging. MODE_OFF leaves items untouched.
+        try {
+            let prePrunerMode;
+            if (typeof window !== 'undefined' && window.PRE_PRUNER_MODE != null) {
+                prePrunerMode = window.PRE_PRUNER_MODE;
+            } else {
+                const cb = (typeof document !== 'undefined') ? document.getElementById('prePrunerEnabled') : null;
+                prePrunerMode = (cb && cb.checked === false) ? PrePruner.MODE_OFF : PrePruner.MODE_ON;
+            }
+            const prePruneT0 = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+            const prePruneResult = PrePruner.prune(items, params, heroResponse, { mode: prePrunerMode });
+            const prePruneT1 = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+            const d = prePruneResult.diagnostics;
+            const dropPct = d.input > 0 ? Math.round((1 - d.output / d.input) * 100) : 0;
+            const permReduction = d.permsBefore && d.permsAfter
+                ? (d.permsBefore / Math.max(1, d.permsAfter)).toFixed(1) + 'x'
+                : 'n/a';
+            console.log(
+                `[prePruner] ${d.input} \u2192 ${d.output} items (${dropPct}% drop, mode=${d.mode}) in ${(prePruneT1 - prePruneT0).toFixed(1)}ms`,
+                `\n  careSet=[${(d.careSet || []).join(',')}] superBuckets=[${(d.superBuckets || []).join(',')}]`,
+                `\n  dropped: careCount=${d.droppedByCareCount || 0} upperBound=${d.droppedByUpperBound || 0} equippedBypass=${d.equippedBypass || 0}`,
+                `\n  perm space: ${d.permsBefore || 0} \u2192 ${d.permsAfter || 0} (${permReduction} reduction)`,
+                `\n  perSlot:`, d.perSlot || {});
+            items = prePruneResult.items;
+        } catch (e) {
+            console.error('[prePruner] threw, falling back to unpruned items:', e);
+        }
+
         items = PriorityFilter.applyPriorityFilters(params, items, baseStats, allItems, params.inputPredictReforges, params.inputSubstatMods)
 
         items = items.sort((a, b) => {
